@@ -1,0 +1,19 @@
+# Render deployment configuration for AgriSmart
+services:
+  - type: web
+    name: agrismart-api
+    env: python
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn src.app_prod:app --bind 0.0.0.0:$PORT
+    plan: starter
+    envVars:
+      - key: GEE_MODE
+        value: live
+      - key: GEE_PROJECT
+        value: crested-primacy-471013-r0
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHONPATH
+        value: .
+    healthCheckPath: /health
+    autoDeploy: true
