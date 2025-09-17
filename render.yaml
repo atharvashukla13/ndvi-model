@@ -4,7 +4,7 @@ services:
     name: agrismart-api
     env: python
     buildCommand: pip install -r requirements-prod.txt
-    startCommand: gunicorn src.app_prod:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn src.app_prod:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
     plan: starter
     envVars:
       - key: GEE_MODE
@@ -15,5 +15,8 @@ services:
         value: production
       - key: PYTHONPATH
         value: .
+      - key: PORT
+        value: 10000
     healthCheckPath: /health
     autoDeploy: true
+    region: oregon
